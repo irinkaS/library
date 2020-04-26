@@ -2,9 +2,9 @@ import db.Db;
 import keyclasses.Book;
 
 import java.sql.*;
-import java.nio.file.*;
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static db.Db.*;
 
@@ -27,7 +27,7 @@ public class Main {
         System.out.println("Your password:");
         String writtenPassword = scanner.nextLine();
 
-        // checking user
+        // checking the user
         while (true) {
             try {
                 sql = "select clientPassword from clients where clientName = '" + writtenName + "'";
@@ -57,34 +57,34 @@ public class Main {
         }
 
         // welcome message and info about log out
-        System.out.println("Welcome to the Library!");
-        System.out.println("To log out you can type ane time end");
+        System.out.println("Welcome to the Library of Modern Literature!");
+        System.out.println("To log out you need to just type \"end\" any time");
 
         // suggestion to see books
-        System.out.println("To see all book type please...");
+        System.out.println("We show only books available for taking right now");
+        System.out.println("To see all books of library type please \"show all\"");
+        System.out.println("To find special book be sure you know it's isbn and type it here, use only numbers");
+        System.out.println("To see all books of a special author you can type his surname");
+        String usersChoice = scanner.nextLine();
 
+        // checking what the user wants to find
+        if (usersChoice.equals("show all"))
+            sql = "SELECT * FROM books WHERE gathered = 0 ORDER BY bookName";
+        else if (Pattern.compile("\\d{13}").matcher(usersChoice).matches())
+            sql = "SELECT * FROM books WHERE bookIsbn = '" + usersChoice + "' AND gathered = 0 ORDER BY bookName";
+        else sql = "SELECT * FROM books WHERE bookAuthor = '" + usersChoice + "' AND gathered = 0 ORDER BY bookName";
 
-
-
-        // insert working
-//        String sql = "INSERT INTO books " + "VALUES (" + 5 + ", '" + "bookN" + "', '" + "Author" + "', " + 1245 + ")";
-//        stmt.executeUpdate(sql);
-
-
-//         select working
+//      making query
         ArrayList<Book> books = new ArrayList<>();
-                try{
-//            Connection conn = getConnection();
-//            Statement stmt = conn.createStatement();
-            sql = "select * from books";
+        try{
             rs = stmt.executeQuery(sql);
 
             Book book;
             while(rs.next()) {
                 book = new Book ();
                 book.setBookName(rs.getString("bookName"));
-                book.setAuthorName(rs.getString("bookName"));
-                book.setIsbn(rs.getInt("bookIsbn"));
+                book.setBookAuthor(rs.getString("bookName"));
+                book.setIsbn(rs.getString("bookIsbn"));
                 books.add(book);
             }
         } catch(Exception e)
@@ -92,25 +92,14 @@ public class Main {
             System.out.println("Not Connected, Error: "+e.getMessage());
         }
 
+        // showing results
         for (Book book: books) {
             System.out.println(book);
         }
 
+        // insert working
+//        String sql = "INSERT INTO books " + "VALUES (" + 5 + ", '" + "bookN" + "', '" + "Author" + "', " + 1245 + ")";
+//        stmt.executeUpdate(sql);
 
     }
-
-
-
-//        Db.dbConnection();
-//        ResultSet rs = statement.executeQuery( "select * from books");
-//        while (rs.next()) {
-//            String lastName = rs.getString("bookName");
-//            System.out.println("" + "\n");
-//        }
-
-
-
-
-
-
 }
