@@ -13,6 +13,14 @@ public class Book {
     private Integer bookId;
 //    public static Integer id = 0;
 
+     public Integer getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
+    }
+
     public Book() {
 
     }
@@ -55,13 +63,19 @@ public class Book {
         System.out.println("INSERT INTO books " + "VALUES (" + book.bookId + ", '" + book.bookName + "', '" + book.bookAuthor + "', " + book.isbn + ")");
         statement.executeUpdate("INSERT INTO books " + "VALUES (" + book.bookId + ", '" + book.bookName + "', '" + book.bookAuthor + "', " + book.isbn + ")");
     }
+
+    public static void deleteBook (Integer bookId) throws SQLException {
+        statement.executeUpdate("DELETE FROM books where bookId =" + bookId);
+    }
+
+
 // 'Small funny book', 'Antony Joke', '223'
 
 
     @Override
     public String toString() {
-        return "bookName='" + bookName + '\'' +
-                ", authorName='" + bookAuthor + '\'' +
-                ", isbn=" + isbn;
+        return bookName + '\'' +
+                " written by " + bookAuthor + " (" +
+                "isbn : " + isbn + ") with id " + bookId;
     }
 }
