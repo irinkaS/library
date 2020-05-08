@@ -17,7 +17,7 @@ public class LogIn {
         String writtenName = scanner.nextLine();
         System.out.println("Your password:");
         String writtenPassword = scanner.nextLine();
-        ArrayList<String> namePlusPass = new ArrayList<>();
+        ArrayList<String> namePlusPass = new ArrayList<String>();
         namePlusPass.add(writtenName);
         namePlusPass.add(writtenPassword);
         return namePlusPass;
