@@ -9,8 +9,11 @@ import java.util.regex.Pattern;
 
 public class Search {
 
-
     public static void search(String usersChoice) {
+        showFoundbooks(searchBy(usersChoice));
+    }
+
+    public static ArrayList<Book> searchBy(String usersChoice) {
         ArrayList<Book> books = new ArrayList<>();
         try {
             BookDAOImpl bookDAO = new BookDAOImpl();
@@ -31,11 +34,15 @@ public class Search {
                 book.setIsbn(rs.getString("bookIsbn"));
                 books.add(book);
             }
+            System.out.println(books);
+            return books;
         } catch (Exception e) {
             System.out.println("Not Connected, Error: " + e.getMessage());
         }
+        return books;
+    }
 
-        // showing results
+    public static void showFoundbooks(ArrayList<Book> books){
         if (books.size() == 0) {
             System.out.println("Nothing found.");
         }
@@ -44,6 +51,5 @@ public class Search {
             System.out.println(book);
 
         }
-
     }
 }

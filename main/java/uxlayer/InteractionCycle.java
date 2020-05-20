@@ -17,8 +17,7 @@ public class InteractionCycle {
         Scanner scanner = new Scanner(System.in);
 
         DbConnection.dbConnection();
-
-        LogIn.checkInUser(new LogIn().logIn());
+        new LogIn().logIn();
 
         String query = new String();
         boolean flag = true;
@@ -39,7 +38,7 @@ public class InteractionCycle {
                     break;
                 case "unlog":
                     System.out.println("You are unlogged");
-                    LogIn.checkInUser(new LogIn().logIn());
+                    new LogIn().logIn();
             }
         }
         getConnection().close();

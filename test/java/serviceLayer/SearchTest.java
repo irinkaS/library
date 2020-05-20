@@ -1,20 +1,16 @@
 package serviceLayer;
-
-import dao.impl.BookDAOImpl;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.util.regex.Pattern;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
 
 class SearchTest {
-
     @Test
     void search() throws SQLException {
-        assertEquals(Pattern.compile("\\d{13}").matcher("1234567891234").matches(), true);
-        assertEquals(Pattern.compile("\\d{13}").matcher("12345678912345").matches(), false);
-        assertEquals(Pattern.compile("\\d{13}").matcher("123456789123g").matches(), false);
+        assertEquals((Search.searchBy("8629402759372")).toString(), "[Simpson' written by Simpson (isbn : 8629402759372) with id 101]");
+        assertEquals((Search.searchBy("Springfield")).toString(), "[Simpson' written by Simpson (isbn : 8629402759372) with id 101, Simpson' written by Simpson (isbn : 4729402759372) with id 1001]");
+        assertEquals((Search.searchBy("show all")).toString(), "[bookN' written by bookN (isbn : 1234567891234) with id 5, Simpson' written by Simpson (isbn : 8629402759372) with id 101, Simpson' written by Simpson (isbn : 4729402759372) with id 1001]");
     }
-
 }
